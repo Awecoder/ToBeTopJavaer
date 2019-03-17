@@ -4,6 +4,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 /**
+ * 使用wait和notifyAll实现生产者与消费者
+ *
  * @author lzp
  * @version v1.0 at 2019/3/13
  */
