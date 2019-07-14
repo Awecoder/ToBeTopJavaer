@@ -27,16 +27,14 @@ public class WaitProductorAndCusumer {
             synchronized (queue) {
                 while (queue.size() == MAX_SIZE) {
                     try {
-                        System.out.println("挂起当前线程，释放共享变量上的锁");
                         // 挂起当前线程，释放共享变量上的锁
                         queue.wait();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
-                // 空闲则生产元素,通知唤醒消费者线程
+                // 队列不满则生产元素,通知唤醒消费者线程
                 queue.add((int) (Math.random() * 10));
-                System.out.println("空闲则生产元素,通知唤醒消费者线程");
                 queue.notifyAll();
             }
         }
@@ -57,15 +55,13 @@ public class WaitProductorAndCusumer {
             synchronized (queue) {
                 while (queue.size() == 0) {
                     try {
-                        System.out.println("挂起当前线程，释放queue上的锁，让生产者生产元素");
-                        // 挂起当前线程，释放queue上的锁，让生产者生产元素
+                        // 挂起当前线程，释放queue上的锁
                         queue.wait();
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
                 }
                 // 消费元素，并通知唤醒生产者线程
-                System.out.println("消费元素，并通知唤醒生产者线程");
                 queue.remove();
                 queue.notifyAll();
             }
@@ -81,6 +77,5 @@ public class WaitProductorAndCusumer {
             new Thread(consumer).start();
             new Thread(producer).start();
         }
-
     }
 }
